@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<link href="~/css/bootstrap.css" rel="stylesheet" />
+		<title>Index</title>
+	</head>
+	<body>
+		<div class="container">
+			<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+					<span class="fs-4">Bike Store Viewer</span>
+				</a>
+				@await Html.PartialAsync("_MenuTopPartial")
+			</header>
+		</div>
+		<div class="container">
+			@RenderBody()
+		</div>		
+		<div class="container">
+			<footer class="py-3 my-4">
+				@await Html.PartialAsync("_MenuBottomPartial")
+				<p class="text-center text-muted">Test App 2022</p>
+			</footer>
+		</div>
+	</body>
+</html>

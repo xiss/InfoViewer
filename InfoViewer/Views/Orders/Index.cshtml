@@ -1,0 +1,35 @@
+﻿@model IndexViewModel<Order>
+
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Customer</th>
+				<th scope="col">Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Orders) {
+			<tr>
+				<th scope="row">@item.Id</th>
+				<td>@item.Customer.FullName</td>
+				<td>@item.OrderDate.ToLongDateString()</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<div class="container">
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<li class="page-item"><a asp-action="Index" asp-route-page="@(Model.PageInfo.PageNumber)" class="page-link">Previous</a></li>
+			<li class="page-item"><a asp-action="Index" asp-route-page="@(Model.PageInfo.PageNumber+1)" class="page-link">@(Model.PageInfo.PageNumber+1)</a></li>
+			<li class="page-item"><a asp-action="Index" asp-route-page="@(Model.PageInfo.PageNumber+2)" class="page-link">@(Model.PageInfo.PageNumber+2)</a></li>
+			<li class="page-item"><a asp-action="Index" asp-route-page="@(Model.PageInfo.PageNumber+3)" class="page-link">@(Model.PageInfo.PageNumber+3)</a></li>
+			<li class="page-item"><a asp-action="Index" asp-route-page="@(Model.PageInfo.PageNumber+1)" class="page-link">Next</a></li>
+		</ul>
+	</nav>
+</div>
+
