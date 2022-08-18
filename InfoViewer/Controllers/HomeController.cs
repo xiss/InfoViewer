@@ -19,7 +19,7 @@ namespace InfoViewer.Controllers
 			int _pageSize = 20;
 			List<Order> orders = _orderRepo.GetRange(o => o.Id, (page - 1) * _pageSize, _pageSize);
 			PageInfo pageInfo = new PageInfo(page, _orderRepo.Count);
-			IndexViewModel<Order> viewModel = new IndexViewModel<Order>(orders, pageInfo);
+			ViewModel<Order> viewModel = new ViewModel<Order>(orders, pageInfo);
 
 			return View(viewModel);
 		}
