@@ -1,5 +1,4 @@
-﻿using BikeStore.Models;
-using InfoViewer.Models;
+﻿using InfoViewer.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -10,7 +9,7 @@ namespace InfoViewer.Helpers
 	{
 		public static HtmlString CreatePagination(this IHtmlHelper html, PageInfo pageInfo, Func<int, string> pageUrl)
 		{
-			//PageInfo pageInfo = viewModel.PageInfo;
+			//TODO В конфиг
 			int linkCount = 6;
 			// Если страница не первая, то начинаем с нескольких страниц назад
 			int linkStart = pageInfo.PageNumber > 1 ? pageInfo.PageNumber - (int)Math.Ceiling(linkCount / (decimal)2) : 1;

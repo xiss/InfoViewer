@@ -14,12 +14,48 @@ namespace InfoViewer.Controllers
 			_orderRepo = orderRepo;
 		}
 
-		public IActionResult Index(int page = 1)
+		public IActionResult Index(int page = 1, string sortOrder = null, string filter = null)
 		{
+			//TODO В конфиг
 			int _pageSize = 20;
-			List<Order> orders = _orderRepo.GetRange(o => o.Id, (page - 1) * _pageSize, _pageSize);
-			PageInfo pageInfo = new PageInfo(page, _orderRepo.Count);
-			ViewModel<Order> viewModel = new ViewModel<Order>(orders, pageInfo);
+			int _pageStart = (page - 1) * _pageSize;
+			OrdersViewModel viewModel = new OrdersViewModel();
+
+			string[] filters = filter?.Split(' ');
+
+			// Это нормально исользовать одновременно а OrdersViewModel и ViewData или нужно создавать свойства в OrdersViewModel?
+			viewModel.CurrentOrder = sortOrder;
+			viewModel.CurrentFilter = filter;
+
+			viewModel.IdSortParam = string.IsNullOrEmpty(sortOrder) ? "IdDecs" : "";
+			viewModel.NameSortParam = sortOrder == "Name" ? "NameDecs" : "Name";
+			viewModel.DateSortParam = sortOrder == "Date" ? "DateDecs" : "Date";
+
+			switch (sortOrder)
+			{
+				case "IdDecs":
+					viewModel.Orders = _orderRepo.GetRange(o => o.Id, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
+					break;
+				case "Name":
+					viewModel.Orders = _orderRepo.GetRange(o => o.Customer.FullName, o => o.CheckFilter(filters), _pageStart, _pageSize);
+					break;
+				case "NameDecs":
+					viewModel.Orders = _orderRepo.GetRange(o => o.Customer.FullName, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
+					break;
+				case "Date":
+					viewModel.Orders = _orderRepo.GetRange(o => o.OrderDate, o => o.CheckFilter(filters), _pageStart, _pageSize);
+					break;
+				case "DateDecs":
+					viewModel.Orders = _orderRepo.GetRange(o => o.OrderDate, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
+					break;
+				default:
+					viewModel.Orders = _orderRepo.GetRange(o => o.Id, o => o.CheckFilter(filters), _pageStart, _pageSize);
+					break;
+			}
+
+			
+
+			viewModel.PageInfo = new PageInfo(page, _orderRepo.CountRange);
 
 			return View(viewModel);
 		}

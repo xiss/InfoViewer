@@ -17,7 +17,7 @@ namespace BikeStore.Models
 			StuffId = stuffId;
 		}
 
-		public  int CustomerId { get; set; }
+		public int CustomerId { get; set; }
 		public virtual Customer Customer { get; set; }
 		public byte OrderStatus { get; set; }
 		public DateTime OrderDate { get; set; }
@@ -28,5 +28,17 @@ namespace BikeStore.Models
 		public int? StuffId { get; set; }
 		public virtual Staff? Stuff { get; set; }
 		public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+		public bool CheckFilter(string[] filters = null)
+		{
+			if (filters == null) return true;
+			foreach (var filter in filters)
+			{
+				if (Id.ToString() == filter) return true;
+				if (Customer.FirstName == filter) return true;
+				if (Customer.LastName == filter) return true;
+			}
+			return false;
+		}
 	}
 }

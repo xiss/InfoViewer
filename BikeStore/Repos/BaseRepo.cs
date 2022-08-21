@@ -12,6 +12,7 @@ namespace BikeStore.Repos
 	{
 		private readonly DbSet<T> _entities;
 		private readonly Context _context;
+		private int _countRange;
 		protected Context Context => _context;
 		public BaseRepo() : this(new Context())
 		{
@@ -42,13 +43,15 @@ namespace BikeStore.Repos
 			return query.ToList();
 		}
 
-		public virtual List<T> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, int skip, int take, bool ascending = true)
+		public virtual List<T> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, Expression<Func<T, bool>> where, int skip, int take, bool ascending = true)
 		{
-			IQueryable<T> query = ascending ? _entities.OrderBy(orderBy) : _entities.OrderByDescending(orderBy);
+			IQueryable<T> query = _entities.Where(where);
+			query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
+			_countRange = query.Count();
 			return query.Skip(skip).Take(take).ToList();
 		}
 
-		public T GetOne(int? id) => _entities.Find(id);
+		public virtual T GetOne(int? id) => _entities.Find(id);
 
 		public int SaveChanges()
 		{
@@ -67,14 +70,16 @@ namespace BikeStore.Repos
 			return 0;
 		}
 
-		public int Count { get => _entities.Count(); }
+		public virtual int CountAll  => _entities.Count(); 
 
-		private string GetTableName()
+        public virtual int CountRange => _countRange;
+
+        private  string GetTableName()
 		{
 			return Context.Model.FindEntityType(typeof(T)).GetTableName();
 		}
 
-		public void IdentityUpdatingOn()
+		public virtual void IdentityUpdatingOn()
 		{
 			string table = GetTableName();
 			Context.Database.OpenConnection();
@@ -86,7 +91,7 @@ namespace BikeStore.Repos
 			}
 		}
 
-		public void IdentityUpdatingOff()
+		public virtual void IdentityUpdatingOff()
 		{
 			string table = GetTableName();
 			Context.Database.OpenConnection();
