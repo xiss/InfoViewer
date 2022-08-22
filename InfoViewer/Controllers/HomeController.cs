@@ -1,29 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BikeStore.Repos;
-using System.Collections.Generic;
-using BikeStore.Models;
+﻿using BikeStore.Repos;
 using InfoViewer.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace InfoViewer.Controllers
 {
 	public class OrdersController : Controller
 	{
 		private readonly OrderRepo _orderRepo;
-		public OrdersController(OrderRepo orderRepo)
+		private readonly AppOptions _appOptions;
+
+		public OrdersController(OrderRepo orderRepo, IOptions<AppOptions> options)
 		{
 			_orderRepo = orderRepo;
+			_appOptions = options.Value;
 		}
 
-		public IActionResult Index(int page = 1, string sortOrder = null, string filter = null)
+		public async Task<IActionResult> Index(int page = 1, string sortOrder = null, string filter = null)
 		{
-			//TODO В конфиг
-			int _pageSize = 20;
+			int _pageSize = _appOptions.PageSize;
 			int _pageStart = (page - 1) * _pageSize;
-			OrdersViewModel viewModel = new OrdersViewModel();
+			OrdersViewModel viewModel = new OrdersViewModel(_appOptions);
 
 			string[] filters = filter?.Split(' ');
 
-			// Это нормально исользовать одновременно а OrdersViewModel и ViewData или нужно создавать свойства в OrdersViewModel?
+			// Это нормально исользовать одновременно а OrdersViewModel и ViewData или нужно
+			// создавать свойства в OrdersViewModel?
 			viewModel.CurrentOrder = sortOrder;
 			viewModel.CurrentFilter = filter;
 
@@ -34,26 +37,29 @@ namespace InfoViewer.Controllers
 			switch (sortOrder)
 			{
 				case "IdDecs":
-					viewModel.Orders = _orderRepo.GetRange(o => o.Id, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
+					viewModel.Orders = await _orderRepo.GetRange(o => o.Id, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
 					break;
+
 				case "Name":
-					viewModel.Orders = _orderRepo.GetRange(o => o.Customer.FullName, o => o.CheckFilter(filters), _pageStart, _pageSize);
+					viewModel.Orders = await _orderRepo.GetRange(o => o.Customer.FullName, o => o.CheckFilter(filters), _pageStart, _pageSize);
 					break;
+
 				case "NameDecs":
-					viewModel.Orders = _orderRepo.GetRange(o => o.Customer.FullName, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
+					viewModel.Orders = await _orderRepo.GetRange(o => o.Customer.FullName, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
 					break;
+
 				case "Date":
-					viewModel.Orders = _orderRepo.GetRange(o => o.OrderDate, o => o.CheckFilter(filters), _pageStart, _pageSize);
+					viewModel.Orders = await _orderRepo.GetRange(o => o.OrderDate, o => o.CheckFilter(filters), _pageStart, _pageSize);
 					break;
+
 				case "DateDecs":
-					viewModel.Orders = _orderRepo.GetRange(o => o.OrderDate, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
+					viewModel.Orders = await _orderRepo.GetRange(o => o.OrderDate, o => o.CheckFilter(filters), _pageStart, _pageSize, false);
 					break;
+
 				default:
-					viewModel.Orders = _orderRepo.GetRange(o => o.Id, o => o.CheckFilter(filters), _pageStart, _pageSize);
+					viewModel.Orders = await _orderRepo.GetRange(o => o.Id, o => o.CheckFilter(filters), _pageStart, _pageSize);
 					break;
 			}
-
-			
 
 			viewModel.PageInfo = new PageInfo(page, _orderRepo.CountRange);
 

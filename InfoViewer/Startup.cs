@@ -1,22 +1,24 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using BikeStore.Repos;
 using BikeStore.Models;
 using BikeStore.Models.Datalnitialize;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BikeStore.Repos;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace InfoViewer
 {
 	public class Startup
 	{
-		// This method gets called by the runtime. Use this method to add services to the container.
-		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+		public IConfiguration Configuration { get; }
+
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
+
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// Правильно ли добавлять их как синглтон?
@@ -30,15 +32,18 @@ namespace InfoViewer
 			services.AddSingleton<StockRepo>();
 			services.AddSingleton<StoreRepo>();
 			services.AddSingleton<StuffRepo>();
+			services.Configure<AppOptions>(Configuration.GetSection(AppOptions.App));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public async void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<AppOptions> options)
 		{
 			// Пересодаем БД
-			//TODO Убрать  в Конфиг
-			//Datalnitializer datalnitializer = new Datalnitializer(new Context(), @"E:\Dropbox\dev\ITVDN\InfoViewer (ASP.Net)\ExpData");
-			//datalnitializer.RecreateDatabase();
+			if (options.Value.SampleData)
+			{
+				Datalnitializer datalnitializer = new Datalnitializer(new Context(), options.Value.SampleDataPath);
+				datalnitializer.RecreateDatabase();
+			}
 
 			if (env.IsDevelopment())
 			{
@@ -47,7 +52,7 @@ namespace InfoViewer
 
 			app.UseRouting();
 			app.UseStaticFiles();
-			
+
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute("Default", "{Controller=Orders}/{Action=Index}/{id?}");

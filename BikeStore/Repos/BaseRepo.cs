@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BikeStore.Repos
 {
@@ -37,18 +38,18 @@ namespace BikeStore.Repos
 
 		public void Dispose() => _context.Dispose();
 
-		public virtual List<T> GetAll<TSortField>(Expression<Func<T, TSortField>> orderBy, bool ascending = true)
+		public async virtual Task<List<T>> GetAll<TSortField>(Expression<Func<T, TSortField>> orderBy, bool ascending = true)
 		{
 			IQueryable<T> query = ascending ? _entities.OrderBy(orderBy) : _entities.OrderByDescending(orderBy);
-			return query.ToList();
+			return await Task.Run(() => query.ToList());
 		}
 
-		public virtual List<T> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, Expression<Func<T, bool>> where, int skip, int take, bool ascending = true)
+		public async virtual Task<List<T>> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, Expression<Func<T, bool>> where, int skip, int take, bool ascending = true)
 		{
 			IQueryable<T> query = _entities.Where(where);
-			query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
-			_countRange = query.Count();
-			return query.Skip(skip).Take(take).ToList();
+			query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);			
+			_countRange = await Task.Run(() => query.Count()); // Есть смысл так делать или нет?
+			return await Task.Run(() => query.Skip(skip).Take(take).ToList());
 		}
 
 		public virtual T GetOne(int? id) => _entities.Find(id);
@@ -70,11 +71,11 @@ namespace BikeStore.Repos
 			return 0;
 		}
 
-		public virtual int CountAll  => _entities.Count(); 
+		public virtual int CountAll => _entities.Count();
 
-        public virtual int CountRange => _countRange;
+		public virtual int CountRange => _countRange;
 
-        private  string GetTableName()
+		private string GetTableName()
 		{
 			return Context.Model.FindEntityType(typeof(T)).GetTableName();
 		}

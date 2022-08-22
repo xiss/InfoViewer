@@ -47,7 +47,7 @@
 </div>
 
 <div class="container">
-	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Index", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter})))
+	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Index", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), Model.Options))
 </div>
 
 

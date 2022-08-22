@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace InfoViewer.Helpers
 {
 	public static class PaginationHelper
 	{
-		public static HtmlString CreatePagination(this IHtmlHelper html, PageInfo pageInfo, Func<int, string> pageUrl)
+		public static HtmlString CreatePagination(this IHtmlHelper html, PageInfo pageInfo, Func<int, string> pageUrl, AppOptions options)
 		{
-			//TODO В конфиг
-			int linkCount = 6;
+			int linkCount = options.PaginationCount;
 			// Если страница не первая, то начинаем с нескольких страниц назад
 			int linkStart = pageInfo.PageNumber > 1 ? pageInfo.PageNumber - (int)Math.Ceiling(linkCount / (decimal)2) : 1;
 

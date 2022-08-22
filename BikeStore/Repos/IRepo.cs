@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BikeStore.Repos
 {
@@ -10,8 +11,8 @@ namespace BikeStore.Repos
 		int Add(T entity);
 		int Add(List<T> entities);
 		T GetOne(int? id);
-		List<T> GetAll<TSortField>(Expression<Func<T, TSortField>> orderBy, bool ascending);
-		List<T> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, Expression<Func<T, bool>> where, int skip, int take, bool ascending = true);
+		Task< List<T>> GetAll<TSortField>(Expression<Func<T, TSortField>> orderBy, bool ascending);
+		Task< List<T>> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, Expression<Func<T, bool>> where, int skip, int take, bool ascending = true);
 		int CountAll { get; }
 		int CountRange { get; }
 		int SaveChanges();
