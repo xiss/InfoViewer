@@ -1,8 +1,10 @@
 ﻿using BikeStore.Repos;
+using BikeStore.Models;
 using InfoViewer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace InfoViewer.Controllers
 {
@@ -64,6 +66,16 @@ namespace InfoViewer.Controllers
 			viewModel.PageInfo = new PageInfo(page, _orderRepo.CountRange, _appOptions.PageSize);
 
 			return View(viewModel);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Order(int id)
+		{
+			Order order = await _orderRepo.GetOne(id);
+			if(order == null)
+				return NotFound();
+			order.OrderItems = order.OrderItems.OrderBy(i => i.Product.Name).ToList();
+			return View(order);
 		}
 	}
 }

@@ -1,0 +1,53 @@
+﻿@model Order
+
+<div class="container">
+	<div class="row">
+		<dl class="row">
+			<dt class="col-sm-3">Customer</dt>
+			<dd class="col-sm-3">@Model.Customer.FullName</dd>
+			<dt class="col-sm-3">Store</dt>
+			<dd class="col-sm-3">@Model.Store.Name</dd>
+			<dt class="col-sm-3">Order date</dt>
+			<dd class="col-sm-3">@Model.OrderDate.ToLongDateString()</dd>
+			<dt class="col-sm-3">Required Date</dt>
+			<dd class="col-sm-3">@Model.RequiredDate.ToLongDateString()</dd>
+			<dt class="col-sm-3">Shipped Date</dt>
+			<dd class="col-sm-3">@Model.ShippedDate?.ToLongDateString()</dd>
+			<dt class="col-sm-3">Order Status</dt>
+			<dd class="col-sm-3">@Model.OrderStatus</dd>
+			<dt class="col-sm-3">Stuff</dt>
+			<dd class="col-sm-3">@Model.Stuff.FullName</dd>
+		</dl>
+	</div>
+</div>
+
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">ItemId</th>
+				<th scope="col">Product.Name</th>
+				<th scope="col">Product.Brand</th>
+				<th scope="col">Product.Category</th>
+				<th scope="col">Product.ModelYear</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">ListPrice</th>
+				<th scope="col">Product.ListPrice</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.OrderItems) {
+			<tr>
+				<td>@item.ItemId</td>
+				<td>@item.Product.Name</td>
+				<td>@item.Product.Brand.Name</td>
+				<td>@item.Product.Category.Name</td>
+				<td>@item.Product.ModelYear</td>
+				<td>@item.Quantity</td>
+				<td>@item.ListPrice</td>
+				<td>@item.Product.ListPrice</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+</div>

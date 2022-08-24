@@ -31,7 +31,7 @@
 		<tbody>
 			@foreach (var item in Model.Orders) {
 			<tr>
-				<th scope="row">@item.Id</th>
+				<th scope="row"><a asp-action ="Order" asp-route-id=@item.Id>@item.Id</a> </th>
 				<td>@item.Customer.FullName</td>
 				<td>@item.OrderDate.ToLongDateString()</td>
 			</tr>

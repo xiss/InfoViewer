@@ -47,12 +47,12 @@ namespace BikeStore.Repos
 		public async virtual Task<List<T>> GetRange<TSortField>(Expression<Func<T, TSortField>> orderBy, Expression<Func<T, bool>> where, int skip, int take, bool ascending = true)
 		{
 			IQueryable<T> query = _entities.Where(where);
-			query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);			
+			query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
 			_countRange = await Task.Run(() => query.Count()); // Есть смысл так делать или нет?
 			return await Task.Run(() => query.Skip(skip).Take(take).ToList());
 		}
 
-		public virtual T GetOne(int? id) => _entities.Find(id);
+		public async virtual Task<T> GetOne(int? id) => await Task.Run(() => _entities.Find(id));
 
 		public int SaveChanges()
 		{
