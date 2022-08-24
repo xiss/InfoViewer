@@ -5,11 +5,6 @@ namespace InfoViewer.Models
 {
 	public class OrdersViewModel : ViewModelBase
 	{
-		public OrdersViewModel(AppOptions options)
-		{
-			Options = options;
-		}
-
 		public string CurrentOrder { get; set; }
 		public string CurrentFilter { get; set; }
 		public string IdSortParam { get; set; }

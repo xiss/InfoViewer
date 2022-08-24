@@ -5,7 +5,7 @@ namespace InfoViewer.Models
 {
 	public class PageInfo
 	{
-		public PageInfo(int pageNumber, int totalItems, int pageSize = 20)
+		public PageInfo(int pageNumber, int totalItems, int pageSize)
 		{
 			PageNumber = pageNumber;
 			PageSize = pageSize;

@@ -26,16 +26,16 @@ namespace InfoViewer.Helpers
 			ul.AddCssClass("pagination");
 
 			//Previous
-			ul = AddLi(ul, pageUrl, pageInfo.PageNumber - 1, pageInfo.PageNumber, linkEnd, "Previous");
+			ul = AddNextLi(ul, pageUrl, pageInfo.PageNumber - 1, pageInfo.PageNumber, linkEnd, "Previous");
 
 			//li
 			for (int page = linkStart; page <= linkEnd; page++)
 			{
-				ul = AddLi(ul, pageUrl, page, pageInfo.PageNumber, linkEnd, page.ToString());
+				ul = AddNextLi(ul, pageUrl, page, pageInfo.PageNumber, linkEnd, page.ToString());
 			}
 
 			//Next
-			ul = AddLi(ul, pageUrl, pageInfo.PageNumber + 1, pageInfo.PageNumber, linkEnd, "Next");
+			ul = AddNextLi(ul, pageUrl, pageInfo.PageNumber + 1, pageInfo.PageNumber, linkEnd, "Next");
 
 			var writer = new System.IO.StringWriter();
 			ul.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
@@ -43,7 +43,7 @@ namespace InfoViewer.Helpers
 			return new HtmlString(writer.ToString());
 		}
 
-		private static TagBuilder AddLi(TagBuilder ul, Func<int, string> pageUrl, int page, int curPage, int lastPage, string buttonName)
+		private static TagBuilder AddNextLi(TagBuilder ul, Func<int, string> pageUrl, int page, int curPage, int lastPage, string buttonName)
 		{
 			TagBuilder li = new TagBuilder("li");
 			//Выделяем активную страницу
@@ -60,10 +60,9 @@ namespace InfoViewer.Helpers
 			a.AddCssClass("page-link");
 			a.MergeAttribute("href", pageUrl(page));
 			a.InnerHtml.Append(buttonName);
-
 			li.InnerHtml.AppendHtml(a);
 			ul.InnerHtml.AppendHtml(li);
 			return ul;
-		}
+		}			
 	}
 }

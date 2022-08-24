@@ -16,12 +16,12 @@ namespace InfoViewer.Controllers
 			_orderRepo = orderRepo;
 			_appOptions = options.Value;
 		}
-
+		[HttpGet]
 		public async Task<IActionResult> Index(int page = 1, string sortOrder = null, string filter = null)
 		{
 			int _pageSize = _appOptions.PageSize;
 			int _pageStart = (page - 1) * _pageSize;
-			OrdersViewModel viewModel = new OrdersViewModel(_appOptions);
+			OrdersViewModel viewModel = new OrdersViewModel();
 
 			string[] filters = filter?.Split(' ');
 
@@ -61,7 +61,7 @@ namespace InfoViewer.Controllers
 					break;
 			}
 
-			viewModel.PageInfo = new PageInfo(page, _orderRepo.CountRange);
+			viewModel.PageInfo = new PageInfo(page, _orderRepo.CountRange, _appOptions.PageSize);
 
 			return View(viewModel);
 		}

@@ -1,22 +1,16 @@
 ﻿@model OrdersViewModel
 
+@{
+	string actionForForm =  Url.Action("Index");
+	string urlForReset = Url.Action("Index", new { page = Model.PageInfo.PageNumber, sortOrder = Model.CurrentOrder });
+	//Для сохранения страницы и сортировки
+	Dictionary<string, string> pageParams = new Dictionary<string, string>();
+	pageParams.Add("page", Model.PageInfo.PageNumber.ToString());
+	if (Model.CurrentOrder != null)
+		pageParams.Add("sortOrder", Model.CurrentOrder);
+}
 <div class="container">
-	<form asp-action="Index" asp-route-sortOrder="@Model.CurrentOrder" asp-route-Page="@Model.PageInfo.PageNumber" method="get" role="search">
-		<div class="mb-3 row">
-			<div class="col-auto">
-				<label for="Filter" class="col-form-label">Filter by id or name:</label>
-			</div>
-			<div class="col-auto">
-				<input type="search" class="form-control" name="Filter" placeholder="Filter..." value="@Model.CurrentFilter" />
-			</div>
-			<div class="col-auto">
-				<button type="submit" class="btn btn-primary">Filter</button>
-			</div>
-			<div class="col-auto">
-				<a asp-action="Index" asp-route-sortOrder="@Model.CurrentOrder" asp-route-Page="@Model.PageInfo.PageNumber" class="btn btn-secondary">Reset</a>
-			</div>
-		</div>
-	</form>
+	@Html.CreateFilter(urlForReset, actionForForm ,"Filter by id or name:", Model.CurrentFilter, pageParams)
 </div>
 
 <div class="container">
@@ -47,7 +41,7 @@
 </div>
 
 <div class="container">
-	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Index", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), Model.Options))
+	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Index", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
 </div>
 
 
