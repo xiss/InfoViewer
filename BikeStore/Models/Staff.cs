@@ -1,5 +1,6 @@
 ﻿using BikeStore.Models.Base;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BikeStore.Models
 {
@@ -16,10 +17,12 @@ namespace BikeStore.Models
 			Email = email;
 			Phone = phone;
 		}
-
+		[Display(Name = "Active")]
 		public byte Active { get; set; }
+		[Display(Name = "Store id")]
 		public int StoreId { get; set; }
 		public virtual Store Store { get; set; }
+		[Display(Name = "Manager id")]
 		public int? ManagerId { get; set; }
 		public virtual Staff? Manager { get; set; }
 		public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

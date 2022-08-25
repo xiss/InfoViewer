@@ -1,0 +1,53 @@
+﻿@model CustomerViewModel
+
+<h4>Customer: @Model.Customer.FullName</h4>
+<div class="container">
+    <div class="row">
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.Customer.City)</dt>
+            <dd class="col-sm-3">@Model.Customer.City</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.Customer.State)</dt>
+            <dd class="col-sm-3">@Model.Customer.State</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.Customer.Street)</dt>
+            <dd class="col-sm-3">@Model.Customer.Street</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.Customer.ZipCode)</dt>
+            <dd class="col-sm-3">@Model.Customer.ZipCode</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.Customer.Email)</dt>
+            <dd class="col-sm-3">@Model.Customer.Email</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.Customer.Phone)</dt>
+            <dd class="col-sm-3">@Model.Customer.Phone</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m=>m.AmountOrdered)</dt>
+            <dd class="col-sm-3">@Model.AmountOrdered</dd>
+        </dl>
+    </div>
+</div>
+<h4>Orders</h4>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(m=>m.Orders.FirstOrDefault().Id)</th>
+                <th scope="col">@Html.DisplayNameFor(m=>m.Orders.FirstOrDefault().OrderDate)</th>
+                <th scope="col">@Html.DisplayNameFor(m=>m.Orders.FirstOrDefault().Store.Name)</th>
+                <th scope="col">@Html.DisplayNameFor(m=>m.Orders.FirstOrDefault().Amount)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Customer.Orders)
+            {
+                    <tr>
+                        <td><a asp-controller="Orders" asp-action="Order" asp-route-id="@item.Id">@item.Id</a></td>
+                        <td>@item.OrderDate.ToLongDateString()</td>
+                        <td>@item.Store.Name</td>
+                        <td>@item.Amount</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>

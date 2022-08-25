@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BikeStore.Models
 {
@@ -9,7 +10,7 @@ namespace BikeStore.Models
 			Name = name;
 			Id = id;
 		}
-
+		[Display(Name = "Name")]
 		public string Name { get; set; }
 		public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 	}

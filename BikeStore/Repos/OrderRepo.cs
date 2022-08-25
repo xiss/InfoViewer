@@ -17,14 +17,14 @@ namespace BikeStore.Repos
 		}
 
 		//Нужен для того чтобы можно было сортировать по FullName полю которое NotMapped
-		public async override Task< List<Order>> GetRange<TSortField>(Expression<Func<Order, TSortField>> orderBy, Expression<Func<Order, bool>> where, int skip, int take, bool ascending = true)
+		public async override Task<List<Order>> GetRange<TSortField>(Expression<Func<Order, TSortField>> orderBy, Expression<Func<Order, bool>> where, int skip, int take, bool ascending = true)
 		{
-			IEnumerable<Order> query = Context.Orders.ToList();
+			IEnumerable<Order> query = await Task.Run(() => Context.Orders.ToList());
 			if (where != null)
 				query = query.Where(where.Compile());
 			query = ascending ? query.OrderBy(orderBy.Compile()) : query.OrderByDescending(orderBy.Compile());
 			_countRange = query.Count();
-			return await Task.Run(()=> query.Skip(skip).Take(take).ToList());
+			return await Task.Run(() => query.Skip(skip).Take(take).ToList());
 		}
 
 		public override int CountRange => _countRange;

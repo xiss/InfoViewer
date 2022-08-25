@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
 
 namespace InfoViewer.Controllers
 {
@@ -63,6 +65,9 @@ namespace InfoViewer.Controllers
 					break;
 			}
 
+			if (viewModel.Orders == null)
+				return NotFound();
+
 			viewModel.PageInfo = new PageInfo(page, _orderRepo.CountRange, _appOptions.PageSize);
 
 			return View(viewModel);
@@ -72,7 +77,7 @@ namespace InfoViewer.Controllers
 		public async Task<IActionResult> Order(int id)
 		{
 			Order order = await _orderRepo.GetOne(id);
-			if(order == null)
+			if (order == null)
 				return NotFound();
 			order.OrderItems = order.OrderItems.OrderBy(i => i.Product.Name).ToList();
 			return View(order);
