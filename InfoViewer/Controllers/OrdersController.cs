@@ -73,7 +73,7 @@ namespace InfoViewer.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Order(int id)
 		{
-			OrderViewModel viewModel = new OrderViewModel(nameof(this.Order), "Order "+ id.ToString());
+			OrderViewModel viewModel = new OrderViewModel(nameof(this.Order), "Order " + id.ToString());
 			viewModel.Order = await _orderRepo.GetOne(id);
 			if (viewModel.Order == null)
 				return NotFound();

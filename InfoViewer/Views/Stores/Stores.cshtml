@@ -1,0 +1,18 @@
+﻿@model StoresViewModel
+
+@foreach (var item in Model.Stores) {
+<div class="container">
+	<h4>@item.Name</h4>
+
+	<dl class="row">
+		<dt class="col-sm-3">@Html.DisplayNameFor(s=>s.Stores.FirstOrDefault().Address)</dt>
+		<dd class="col-sm-9">@item.Address</dd>
+
+		<dt class="col-sm-3">@Html.DisplayNameFor(s=>s.Stores.FirstOrDefault().Email)</dt>
+		<dd class="col-sm-9">@item.Email</dd>
+
+		<dt class="col-sm-3">@Html.DisplayNameFor(s=>s.Stores.FirstOrDefault().Phone)</dt>
+		<dd class="col-sm-9">@item.Phone</dd>
+	</dl>
+</div>
+}

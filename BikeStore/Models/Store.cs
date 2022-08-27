@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BikeStore.Models
 {
@@ -16,6 +17,7 @@ namespace BikeStore.Models
 			State = state;
 			ZipCode = zipCode;
 		}
+
 		[Display(Name = "Shop")]
 		public string Name { get; set; }
 		[Display(Name = "Phone")]
@@ -28,6 +30,9 @@ namespace BikeStore.Models
 		public string City { get; set; }
 		[Display(Name = "State")]
 		public string State { get; set; }
+		[NotMapped]
+		[Display(Name = "Address")]
+		public string Address => ZipCode + " " + State + " " + City + " " + Street;
 		[Display(Name = "ZipCode")]
 		public string ZipCode { get; set; }
 		public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
