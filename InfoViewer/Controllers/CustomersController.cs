@@ -18,11 +18,11 @@ namespace InfoViewer.Controllers
 			_appOptions = appOptions.Value;
 		}
 		[HttpGet]
-		public async Task<IActionResult> Index(int page = 1, string sortOrder = null, string filter = null)
+		public async Task<IActionResult> Customers(int page = 1, string sortOrder = null, string filter = null)
 		{
 			int _pageSize = _appOptions.PageSize;
 			int _pageStart = (page - 1) * _pageSize;
-			CustomersViewModel viewModel = new CustomersViewModel();
+			CustomersViewModel viewModel = new CustomersViewModel(nameof(this.Customers), "Customers");
 
 			string[] filters = filter?.Split(' ');
 
@@ -74,8 +74,9 @@ namespace InfoViewer.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Customer(int id)
 		{
-			CustomerViewModel viewModel = new CustomerViewModel();
-			viewModel.Customer = await _customerRepo.GetOne(id);
+			Customer customer = await _customerRepo.GetOne(id);
+			CustomerViewModel viewModel = new CustomerViewModel(nameof(this.Customer), "Customer " + customer.FullName);
+			viewModel.Customer = customer;
 
 			if (viewModel.Customer == null)
 				return NotFound();

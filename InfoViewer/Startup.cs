@@ -55,7 +55,7 @@ namespace InfoViewer
 
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapControllerRoute("Default", "{Controller=Orders}/{Action=Index}/{id?}");
+				endpoints.MapControllerRoute("Default", "{Controller=Orders}/{Action=Orders}/{id?}");
 			});
 		}
 	}

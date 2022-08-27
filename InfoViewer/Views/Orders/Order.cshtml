@@ -1,29 +1,29 @@
-﻿@model Order
+﻿@model OrderViewModel
 
-<h4>Order: @Model.Id</h4>
+<h4>Order: @Model.Order.Id</h4>
 <div class="container">
 	<div class="row">
 		<dl class="row">
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Customer.FullName)</dt>
-			<dd class="col-sm-3">@Model.Customer.FullName</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order. Customer.FullName)</dt>
+			<dd class="col-sm-3">@Model.Order.Customer.FullName</dd>
 
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Store.Name)</dt>
-			<dd class="col-sm-3">@Model.Store.Name</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order.Store.Name)</dt>
+			<dd class="col-sm-3">@Model.Order.Store.Name</dd>
 
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.OrderDate)</dt>
-			<dd class="col-sm-3">@Model.OrderDate.ToLongDateString()</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order.OrderDate)</dt>
+			<dd class="col-sm-3">@Model.Order.OrderDate.ToLongDateString()</dd>
 
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.RequiredDate)</dt>
-			<dd class="col-sm-3">@Model.RequiredDate.ToLongDateString()</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order.RequiredDate)</dt>
+			<dd class="col-sm-3">@Model.Order.RequiredDate.ToLongDateString()</dd>
 
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.ShippedDate) </dt>
-			<dd class="col-sm-3">@Model.ShippedDate?.ToLongDateString()</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order.ShippedDate) </dt>
+			<dd class="col-sm-3">@Model.Order.ShippedDate?.ToLongDateString()</dd>
 
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.OrderStatus)</dt>
-			<dd class="col-sm-3">@Model.OrderStatus</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order.OrderStatus)</dt>
+			<dd class="col-sm-3">@Model.Order.OrderStatus</dd>
 
-			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Stuff.FullName)</dt>
-			<dd class="col-sm-3">@Model.Stuff.FullName</dd>
+			<dt class="col-sm-3">@Html.DisplayNameFor(o=>o.Order.Stuff.FullName)</dt>
+			<dd class="col-sm-3">@Model.Order.Stuff.FullName</dd>
 		</dl>
 	</div>
 </div>
@@ -32,18 +32,18 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col">@Html.DisplayNameFor(o=>o.Id)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().Product.Name)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().Product.Brand)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().Product.Category)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().Product.ModelYear)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().Quantity)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().ListPrice)</th>
-				<th scope="col">@Html.DisplayNameFor(o=>o.OrderItems.FirstOrDefault().Product.ListPrice)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.Id)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().Product.Name)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().Product.Brand)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().Product.Category)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().Product.ModelYear)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().Quantity)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().ListPrice)</th>
+				<th scope="col">@Html.DisplayNameFor(o=>o.Order.OrderItems.FirstOrDefault().Product.ListPrice)</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var item in Model.OrderItems) {
+			@foreach (var item in Model.Order.OrderItems) {
 			<tr>
 				<td>@item.ItemId</td>
 				<td>@item.Product.Name</td>

@@ -1,8 +1,8 @@
 ﻿@model OrdersViewModel
 
 @{
-	string actionForForm =  Url.Action("Index");
-	string urlForReset = Url.Action("Index", new { page = Model.PageInfo.PageNumber, sortOrder = Model.CurrentOrder });
+	string actionForForm =  Url.Action("Orders");
+	string urlForReset = Url.Action("Orders", new { page = Model.PageInfo.PageNumber, sortOrder = Model.CurrentOrder });
 	//Для сохранения страницы и сортировки
 	Dictionary<string, string> pageParams = new Dictionary<string, string>();
 	pageParams.Add("page", Model.PageInfo.PageNumber.ToString());
@@ -34,8 +34,8 @@
 		<tbody>
 			@foreach (var item in Model.Orders) {
 			<tr>
-				<th scope="row"><a asp-action ="Order" asp-route-id=@item.Id>@item.Id</a> </th>
-				<td>@item.Customer.FullName</td>
+				<th><a asp-action ="Order" asp-route-id=@item.Id>@item.Id</a> </th>
+				<td><a asp-controller="Customers" asp-action="Customer" asp-route-id="@item.CustomerId">@item.Customer.FullName</a></td>
 				<td>@item.OrderDate.ToLongDateString()</td>
 			</tr>
 			}
@@ -44,7 +44,7 @@
 </div>
 
 <div class="container">
-	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Index", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
+	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Orders", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
 </div>
 
 

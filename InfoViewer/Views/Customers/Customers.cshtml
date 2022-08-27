@@ -1,8 +1,8 @@
 ﻿@model CustomersViewModel
 
 @{
-	string actionForSearchForm =  Url.Action("Index");
-	string urlForReset = Url.Action("Index", new { page = Model.PageInfo.PageNumber, sortOrder = Model.CurrentOrder });
+	string actionForSearchForm =  Url.Action("Orders");
+	string urlForReset = Url.Action("Orders", new { page = Model.PageInfo.PageNumber, sortOrder = Model.CurrentOrder });
 	//Для сохранения страницы и сортировки
 	Dictionary<string, string> pageParams = new Dictionary<string, string>();
 	pageParams.Add("page", Model.PageInfo.PageNumber.ToString());
@@ -49,6 +49,6 @@
 </div>
 
 <div class="container">
-	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Index", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
+	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Orders", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
 </div>
 		

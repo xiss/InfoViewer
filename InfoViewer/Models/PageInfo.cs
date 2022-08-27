@@ -1,5 +1,4 @@
-﻿using BikeStore.Models;
-using System;
+﻿using System;
 
 namespace InfoViewer.Models
 {

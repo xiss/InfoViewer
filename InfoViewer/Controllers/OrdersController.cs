@@ -1,12 +1,9 @@
 ﻿using BikeStore.Repos;
-using BikeStore.Models;
 using InfoViewer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Linq.Expressions;
-using System;
 
 namespace InfoViewer.Controllers
 {
@@ -21,16 +18,16 @@ namespace InfoViewer.Controllers
 			_appOptions = options.Value;
 		}
 		[HttpGet]
-		public async Task<IActionResult> Index(int page = 1, string sortOrder = null, string filter = null)
+		public async Task<IActionResult> Orders(int page = 1, string sortOrder = null, string filter = null)
 		{
 			int _pageSize = _appOptions.PageSize;
 			int _pageStart = (page - 1) * _pageSize;
-			OrdersViewModel viewModel = new OrdersViewModel();
+			OrdersViewModel viewModel = new OrdersViewModel(nameof(this.Orders), "Orders");
 
 			string[] filters = filter?.Split(' ');
 
 			// Это нормально исользовать одновременно а OrdersViewModel и ViewData или нужно
-			// создавать свойства в OrdersViewModel?
+			// создавать свойства в OrdersViewModel? 
 			viewModel.CurrentOrder = sortOrder;
 			viewModel.CurrentFilter = filter;
 
@@ -76,11 +73,12 @@ namespace InfoViewer.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Order(int id)
 		{
-			Order order = await _orderRepo.GetOne(id);
-			if (order == null)
+			OrderViewModel viewModel = new OrderViewModel(nameof(this.Order), "Order "+ id.ToString());
+			viewModel.Order = await _orderRepo.GetOne(id);
+			if (viewModel.Order == null)
 				return NotFound();
-			order.OrderItems = order.OrderItems.OrderBy(i => i.Product.Name).ToList();
-			return View(order);
+			viewModel.Order.OrderItems = viewModel.Order.OrderItems.OrderBy(i => i.Product.Name).ToList();
+			return View(viewModel);
 		}
 	}
 }

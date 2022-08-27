@@ -1,7 +1,9 @@
-﻿ <ul class="nav nav-pills">
-        <li class="nav-item"> <a asp-controller="Orders" asp-action="Index" class="nav-link active">Orders</a></li>
-        <li class="nav-item"><a asp-controller="Customers" asp-action="Index" class="nav-link">Customers</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+﻿@model BaseViewModel
+<ul class="nav nav-pills">
+	<li class="nav-item">
+		<menu-item controller="Orders" action="Orders" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Orders</menu-item>
+	</li>
+	<li class="nav-item">
+		<menu-item controller="Customers" action="Customers" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Customers</menu-item>
+	</li>
 </ul>
