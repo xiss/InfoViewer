@@ -21,17 +21,17 @@ namespace InfoViewer
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			// Правильно ли добавлять их как синглтон?
+			// Правильно ли добавлять их как Scoped?
 			services.AddMvc();
-			services.AddSingleton<Context>();
-			services.AddSingleton<CategoryRepo>();
-			services.AddSingleton<CustomerRepo>();
-			services.AddSingleton<OrderItemRepo>();
-			services.AddSingleton<OrderRepo>();
-			services.AddSingleton<ProductRepo>();
-			services.AddSingleton<StockRepo>();
-			services.AddSingleton<StoreRepo>();
-			services.AddSingleton<StuffRepo>();
+			services.AddScoped<Context>();
+			services.AddScoped<CategoryRepo>();
+			services.AddScoped<CustomerRepo>();
+			services.AddScoped<OrderItemRepo>();
+			services.AddScoped<OrderRepo>();
+			services.AddScoped<ProductRepo>();
+			services.AddScoped<StockRepo>();
+			services.AddScoped<StoreRepo>();
+			services.AddScoped<StuffRepo>();
 			services.Configure<AppOptions>(Configuration.GetSection(AppOptions.App));
 		}
 

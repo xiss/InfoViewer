@@ -2,7 +2,6 @@
 
 namespace InfoViewer.TagHelpers
 {
-	[HtmlTargetElement(ParentTag = "li")]
 	public class MenuItemTagHelper : TagHelper
 	{
 		public string Controller { get; set; }

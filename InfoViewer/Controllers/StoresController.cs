@@ -17,6 +17,7 @@ namespace InfoViewer.Controllers
 			_appOptions = appOptions.Value;
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Stores()
 		{
 			StoresViewModel viewModel = new StoresViewModel(nameof(this.Stores), "Stores");

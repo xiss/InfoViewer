@@ -28,5 +28,40 @@ namespace BikeStore.Repos
 		}
 
 		public override int CountRange => _countRange;
+
+		public async Task<List<(Store, decimal)>> GetSalesByStores()
+		{
+			var result = Task.Run(() => Context.Orders.Include(o => o.OrderItems).Include(o => o.Store).ToList().
+			GroupBy(o => o.Store, o => o.OrderItems).
+			Select(s => (s.Key, s.
+			Sum(oi => oi.
+			Sum(oi => oi.Quantity * oi.ListPrice)))).
+			ToList());
+
+			//TODO Как реализовать то  что выше так чтобы вычислать все на уровне БД? Вариант ниже не работает.
+			//var b = s.GroupBy(o => o.StoreId, (sId, order) => new { id = sId, sum = order.Sum(o => o.OrderItems.GroupBy(oi => oi.OrderId, (oi, i) => i.Sum(oi => oi.ListPrice))) });
+
+			return await result;
+		}
+
+		public async Task<List<(int, decimal)>> GetSalesByMonths()
+		{
+			var result = Task.Run(() => Context.Orders.Include(o => o.OrderItems).ToList().
+			GroupBy(o => o.OrderDate.Month, o => o.OrderItems).
+			Select(s => (s.Key, s.
+			Sum(oi => oi.
+			Sum(oi => oi.Quantity * oi.ListPrice)))).
+			ToList());
+			return await result;
+		}
+
+		public async Task<List<(Brand, decimal)>> GetSalesByBrand()
+		{
+			var result = Task.Run(() => Context.OrderItems.Include(oi => oi.Product).ThenInclude(p => p.Brand).ToList().
+			GroupBy(oi => oi.Product.Brand, oi => oi).
+			Select(s => (s.Key, s.Sum(oi => oi.ListPrice * oi.Quantity))).
+			ToList());
+			return await result;
+		}
 	}
 }

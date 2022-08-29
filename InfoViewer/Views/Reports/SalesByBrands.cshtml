@@ -1,0 +1,23 @@
+﻿@model ReportViewModel
+   
+    <h4>Sales by brands</h4>
+    <div  id="chartSalesByBrands"  style="height: 300px; width: 100%; box-sizing:content-box"></div>
+
+     <script type="text/javascript">
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartSalesByBrands", {
+                theme: "light2",
+                animationEnabled: true,               
+                data: [
+                {
+                    type: "bar", //change type to bar, line, area, pie, etc
+                    legendText: "{label}",
+                    dataPoints: @(Html.Raw(Model.ChartsJsonDatas["salesByBrands"]))
+                }
+                ]
+            });
+            chart.render();
+        };
+    </script>
+
+    
