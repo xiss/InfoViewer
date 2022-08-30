@@ -18,19 +18,19 @@
 		<thead>
 			<tr>
 				<th scope="col">
-					<a asp-action="Index" asp-route-sortOrder="@Model.IdSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
+					<a asp-action="@nameof(CustomersController.Customers)" asp-route-sortOrder="@Model.IdSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
 					asp-route-filter="@Model.CurrentFilter">@Html.DisplayNameFor(o=>o.Customers.FirstOrDefault().Id)</a>
 				</th>
 				<th scope="col">
-					<a asp-action="Index" asp-route-sortOrder="@Model.NameSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
+					<a asp-action="@nameof(CustomersController.Customers)" asp-route-sortOrder="@Model.NameSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
 					asp-route-filter="@Model.CurrentFilter">@Html.DisplayNameFor(o=>o.Customers.FirstOrDefault().FullName)</a>
 				</th>
 				<th scope="col">
-					<a asp-action="Index" asp-route-sortOrder="@Model.EmailSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
+					<a asp-action="@nameof(CustomersController.Customers)" asp-route-sortOrder="@Model.EmailSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
 					asp-route-filter="@Model.CurrentFilter">@Html.DisplayNameFor(o=>o.Customers.FirstOrDefault().Email)</a>
 				</th>
 				<th scope="col">
-					<a asp-action="Index" asp-route-sortOrder="@Model.PhoneSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
+					<a asp-action="@nameof(CustomersController.Customers)" asp-route-sortOrder="@Model.PhoneSortParam" asp-route-Page="@Model.PageInfo.PageNumber" 
 					asp-route-filter="@Model.CurrentFilter">@Html.DisplayNameFor(o=>o.Customers.FirstOrDefault().Phone)</a>
 				</th>				
 			</tr>
@@ -39,7 +39,7 @@
 			@foreach (var item in Model.Customers) {
 			<tr>
 				<th scope="row">@item.Id</th>
-				<td><a asp-action="Customer" asp-route-id="@item.Id">@item.FullName</a></td>
+				<td><a asp-action="@nameof(CustomersController.Customer)" asp-route-id="@item.Id">@item.FullName</a></td>
 				<td>@item.Email</td>
 				<td>@item.Phone</td>
 			</tr>
@@ -49,6 +49,6 @@
 </div>
 
 <div class="container">
-	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action("Orders", new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
+	@(Html.CreatePagination(Model.PageInfo ,x=> Url.Action(nameof(CustomersController.Customers), new{page = x, sortOrder=Model.CurrentOrder, filter = Model.CurrentFilter}), options.Value))
 </div>
 		

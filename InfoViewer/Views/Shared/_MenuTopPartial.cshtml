@@ -1,21 +1,24 @@
 ﻿@model BaseViewModel
 <ul class="nav nav-pills">
 	<li class="nav-item">
-		<menu-item controller="Orders" action="Orders" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Orders</menu-item>
+		<menu-item controller="Home" action="@nameof(HomeController.About)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">About</menu-item>
 	</li>
 	<li class="nav-item">
-		<menu-item controller="Customers" action="Customers" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Customers</menu-item>
+		<menu-item controller="Orders" action="@nameof(OrdersController.Orders)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Orders</menu-item>
 	</li>
 	<li class="nav-item">
-        <menu-item controller="Stores" action="Stores" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Stores</menu-item>
+		<menu-item controller="Customers" action="@nameof(CustomersController.Customers)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Customers</menu-item>
+	</li>
+	<li class="nav-item">
+        <menu-item controller="Stores" action="@nameof(StoresController.Stores)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Stores</menu-item>
     </li>
 	<li class="nav-item">
-        <menu-item controller="Reports" action="SalesByStores" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Sales by stores</menu-item>
+        <menu-item controller="Reports" action="@nameof(ReportsController.SalesByStores)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Sales by stores</menu-item>
     </li>
 		<li class="nav-item">
-        <menu-item controller="Reports" action="SalesByMonths" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Sales by months</menu-item>
+        <menu-item controller="Reports" action="@nameof(ReportsController.SalesByMonths)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Sales by months</menu-item>
     </li>
 		<li class="nav-item">
-        <menu-item controller="Reports" action="SalesByBrands" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Sales by brands</menu-item>
+        <menu-item controller="Reports" action="@nameof(ReportsController.SalesByBrands)" curent-action="@Model.CurrentAction" class="nav-link" current-page-class="active">Sales by brands</menu-item>
     </li>
 </ul>
